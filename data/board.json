@@ -1,0 +1,19 @@
+{
+  "board": [
+    { "userId": 1, "columnId": 1, "header": "To Do",
+      "cards": [
+        {"cardId": 1, "desc": "Create Database", "status": "incomplete"},
+        {"cardId": 2, "desc": "Seed Database", "status": "incomplete"},
+        {"cardId": 3, "desc": "Create UI", "status": "incomplete"}
+      ]
+    },
+    { "userId": 1, "columnId": 2, "header": "Dun",
+      "cards": [
+        {"cardId": 1, "desc": "Feed Cat", "status": "complete"},
+        {"cardId": 2, "desc": "Beat Cat", "status": "complete"},
+        {"cardId": 3, "desc": "Bleed Cat", "status": "complete"},
+        {"cardId": 4, "desc": "Eat Cat", "status": "complete"}
+      ]
+    }
+  ]
+}

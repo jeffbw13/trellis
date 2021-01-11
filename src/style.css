@@ -1,0 +1,44 @@
+body {
+  color: #172b4d;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.board {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  width: 272px;
+  margin: 0 4px;
+  background-color: #ebecf0;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 100%;
+  position: relative;
+  white-space: normal;
+}
+
+.card {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3px;
+  margin-bottom: 4px;
+  padding: 0px;
+  width: 250px;
+  min-height: 54px;
+  background-color: white;
+}
+
+.isDragging {
+  opacity: 50%;
+}
+
+.isOver {
+  background-color: lightblue;
+}

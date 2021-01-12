@@ -8,7 +8,7 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
     <div>
-      <h1>Welcome to App!</h1>
+      <h1>Welcome to Trellis!</h1>
       <Board />
     </div>
     </DndProvider>

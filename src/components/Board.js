@@ -29,14 +29,36 @@ const Board = function () {
     setAddingList(false);
   };
 
-  let key = 0;
+  const handleCardDropped = (item, newListIndex) => {
+    //  board is where we have access to both lists
+    alert("handleCardDropped");
+    console.log("item: ", item);
+    console.log("newListIndex: ", newListIndex);
+    const boardx = [...board];
+    //  item.listIndex and item.cardIndex should resolve themselves
+    boardx[newListIndex].cards.push(item.card);
+    boardx[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
+    setBoard(boardx);
+    //  this needs to add to new list in the appropriate position, and remove
+    //  from old list.  Ultimately it will need to save both lists (or the
+    //  board) to the database.
+    //  Can this be done in the card?  It IS called back from the card.  But
+    //  card would need to have access to whole board, right?
+  };
 
   return (
     <div>
       <div className="board">
-        {board.map((list) => (
-          <List key={key++} list={list} />
-        ))}
+        {board.map((list, index) => {
+          list.listIndex = index;
+          return (
+            <List
+              list={list}
+              handleCardDropped={handleCardDropped}
+              key={index}
+            />
+          );
+        })}
         {!addingList && (
           <button
             className="add-list-button"

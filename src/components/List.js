@@ -4,17 +4,18 @@ import ITEM_TYPE from "../../data/types";
 import Card from "./Card";
 import plus_sm from "../../images/plus-sm.svg";
 
-const List = ({ list }) => {
+const List = ({ list, handleCardDropped }) => {
   const [addingCard, setAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
   const handleAddCard = (event) => {
     event.preventDefault();
-    //  do we need cardId?  Card will always be inside a column array.
+    //  do we need cardId?  Card will always be inside an array in list.
     const card = {
       cardId: list.cards.length + 1,
       desc: cardTitle,
       status: "incomplete",
+      cardIndex: list.cards.length + 1,
     };
     //  this needs to add column to database.
     list.cards.push(card);
@@ -36,7 +37,10 @@ const List = ({ list }) => {
       //  react-dnd does not actually drop the object into the div viz html5.
       //  What "drop" needs to do is move the item into the data array for this column
       //    and delete it from the array it used to be in
-      alert("dropped!");
+      //console.log("item: ", item);
+      //console.log("monitor: ", monitor);
+      //alert("dropped!");
+      handleCardDropped(item, list.listIndex);
       //  onDrop would be passed in to To from the calling component which
       //    has access to all the data
       //  in Ryan's example, onDrop changes the status on the moved (dropped) item and
@@ -53,14 +57,15 @@ const List = ({ list }) => {
   if (isOver) {
     className += " isOver";
   }
-  let key = 0;
 
   return (
     <div className={className} ref={drop}>
       <h2>{list.header}</h2>
-      {list.cards.map((card) => (
-        <Card key={key++} card={card} />
-      ))}
+      {list.cards.map((card, index) => {
+        card.listIndex = list.listIndex;
+        card.cardIndex = index;
+        return <Card card={card} key={index} />;
+      })}
       {!addingCard && (
         <button className="add-card-button" onClick={() => setAddingCard(true)}>
           <img src={plus_sm} />

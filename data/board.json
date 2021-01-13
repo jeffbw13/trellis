@@ -1,3 +1,4 @@
+//  board needs to be an object containing an array of lists
 {
   "board": [
     {

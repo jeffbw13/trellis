@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import ITEM_TYPE from "../../data/types";
 import Card from "./Card";
@@ -7,6 +7,7 @@ import plus_sm from "../../images/plus-sm.svg";
 const List = ({ list, handleCardDropped }) => {
   const [addingCard, setAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const handleAddCard = (event) => {
     event.preventDefault();
@@ -25,11 +26,8 @@ const List = ({ list, handleCardDropped }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPE,
     canDrop: (item, monitor) => {
-      //  we don't actually need canDrop at all, since we'll always accept this item type
-      //  we may not want this logic.  forces column adjacency
-      //const itemIndex = statuses.findIndex(si => si.status === item.status);
-      //const statusIndex = statuses.findIndex(si => si.status === status);
-      //return [itemIndex + 1, itemIndex - 1, itemIndex].includes(statusIndex);
+      //  we will eventually use candrop to prevent dropping a column into
+      //    another column, or a card outside a colum
       return true;
     },
     drop: (item, monitor) => {
@@ -40,7 +38,7 @@ const List = ({ list, handleCardDropped }) => {
       //console.log("item: ", item);
       //console.log("monitor: ", monitor);
       //alert("dropped!");
-      handleCardDropped(item, list.listIndex);
+      handleCardDropped(item, list.listIndex, hoveredItem);
       //  onDrop would be passed in to To from the calling component which
       //    has access to all the data
       //  in Ryan's example, onDrop changes the status on the moved (dropped) item and
@@ -64,7 +62,7 @@ const List = ({ list, handleCardDropped }) => {
       {list.cards.map((card, index) => {
         card.listIndex = list.listIndex;
         card.cardIndex = index;
-        return <Card card={card} key={index} />;
+        return <Card card={card} key={index} setHoveredItem={setHoveredItem} />;
       })}
       {!addingCard && (
         <button className="add-card-button" onClick={() => setAddingCard(true)}>

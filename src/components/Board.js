@@ -29,21 +29,25 @@ const Board = function () {
     setAddingList(false);
   };
 
-  const handleCardDropped = (item, newListIndex) => {
+  const handleCardDropped = (item, newListIndex, hoveredItem) => {
     //  board is where we have access to both lists
-    alert("handleCardDropped");
-    console.log("item: ", item);
-    console.log("newListIndex: ", newListIndex);
     const boardx = [...board];
     //  item.listIndex and item.cardIndex should resolve themselves
-    boardx[newListIndex].cards.push(item.card);
+
+    //  'working', but when working
+    //    in same list, CAN replace the hovered item
+    if (hoveredItem === null) {
+      boardx[newListIndex].cards.push(item.card);
+    } else {
+      boardx[newListIndex].cards.splice(hoveredItem, 0, item.card);
+    }
     boardx[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
     setBoard(boardx);
     //  this needs to add to new list in the appropriate position, and remove
     //  from old list.  Ultimately it will need to save both lists (or the
     //  board) to the database.
-    //  Can this be done in the card?  It IS called back from the card.  But
-    //  card would need to have access to whole board, right?
+    //  We need indexes of any hovered cards.  If two cards, goes between them.
+    //  if one hovered card, if index=0 goes before it.  if index>0 goes at end
   };
 
   return (

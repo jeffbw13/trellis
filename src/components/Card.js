@@ -3,7 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 //import Window from './Window';
 import ITEM_TYPE from "../../data/types";
 
-const Card = ({ card, setHoveredItem }) => {
+const Card = ({ card, setHoveredCardIndex }) => {
   const _id = 4;
   //  this HAS to be called "ref"!!
   const [{ isDragging }, drag] = useDrag({
@@ -21,7 +21,7 @@ const Card = ({ card, setHoveredItem }) => {
     accept: ITEM_TYPE,
 
     hover(item, monitor) {
-      setHoveredItem(card.cardIndex);
+      setHoveredCardIndex(card.cardIndex);
     },
     /*
       alert("hovering");

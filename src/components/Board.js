@@ -36,12 +36,23 @@ const Board = function () {
 
     //  'working', but when working
     //    in same list, CAN replace the hovered item
+    console.log("hoveredItem: ", hoveredItem);
+    console.log("newListIndex: ", newListIndex);
+    console.log("item.card: ", item.card);
     if (hoveredItem === null) {
       boardx[newListIndex].cards.push(item.card);
     } else {
       boardx[newListIndex].cards.splice(hoveredItem, 0, item.card);
     }
-    boardx[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
+    //  if move changed indexes...
+    if (
+      item.card.listIndex === newListIndex &&
+      item.card.cardIndex > hoveredItem
+    ) {
+      boardx[item.card.listIndex].cards.splice(item.card.cardIndex + 1, 1);
+    } else {
+      boardx[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
+    }
     setBoard(boardx);
     //  this needs to add to new list in the appropriate position, and remove
     //  from old list.  Ultimately it will need to save both lists (or the

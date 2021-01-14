@@ -7,7 +7,7 @@ import plus_sm from "../../images/plus-sm.svg";
 const List = ({ list, handleCardDropped }) => {
   const [addingCard, setAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
 
   const handleAddCard = (event) => {
     event.preventDefault();
@@ -38,7 +38,7 @@ const List = ({ list, handleCardDropped }) => {
       //console.log("item: ", item);
       //console.log("monitor: ", monitor);
       //alert("dropped!");
-      handleCardDropped(item, list.listIndex, hoveredItem);
+      handleCardDropped(item, list.listIndex, hoveredCardIndex);
       //  onDrop would be passed in to To from the calling component which
       //    has access to all the data
       //  in Ryan's example, onDrop changes the status on the moved (dropped) item and
@@ -62,7 +62,13 @@ const List = ({ list, handleCardDropped }) => {
       {list.cards.map((card, index) => {
         card.listIndex = list.listIndex;
         card.cardIndex = index;
-        return <Card card={card} key={index} setHoveredItem={setHoveredItem} />;
+        return (
+          <Card
+            card={card}
+            key={index}
+            setHoveredCardIndex={setHoveredCardIndex}
+          />
+        );
       })}
       {!addingCard && (
         <button className="add-card-button" onClick={() => setAddingCard(true)}>

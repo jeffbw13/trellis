@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 //import Window from './Window';
 import ITEM_TYPES from "../../data/types";
+import eye from "../../images/eyeball.svg";
 
 const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
   const _id = 4;
@@ -86,7 +87,10 @@ const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
       <div className={className} ref={drag}>
         <h3>{card.header}</h3>
         <h4>{card.status}</h4>
-        This is BubbaCard {card.cardId}
+        <img
+          style={{ width: "17px", height: "15px", stroke: "lightGrey" }}
+          src={eye}
+        />
       </div>
     </div>
   );

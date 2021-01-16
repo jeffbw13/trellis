@@ -20,7 +20,7 @@ const board = {
       ],
     },
     {
-      userId: 1,
+      header: "Do More",
       cards: [
         { header: "Feed Cat", status: "complete" },
         { header: "Beat Cat", status: "complete" },

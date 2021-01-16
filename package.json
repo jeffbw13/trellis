@@ -5,19 +5,23 @@
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html",
+    "db:seed": "node database/seed.js",
+    "start": "nodemon server/index.js",
+    "dontprestart": "parcel build ./src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "mongo": "*",
+    "mongoose": "*",
     "react": "^16.10.2",
     "react-dnd": "^11.1.3",
     "react-dnd-html5-backend": "^11.1.3",
     "react-dom": "^16.10.2",
-    "react-modal": "^3.11.2",
-    "mongo": "*",
-    "mongoose": "*"
+    "react-modal": "^3.11.2"
   },
   "devDependencies": {
+    "nodemon": "^2.0.7",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5"
   },

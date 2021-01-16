@@ -1,4 +1,13 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/trellisdb');
-mongoose.Promise = global.Promise;
+const mongoose = require("mongoose");
 
+const mongoUri = "mongodb://localhost/trellis";
+
+const db = mongoose
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .catch((error) => console.log(error));
+
+module.exports = db;

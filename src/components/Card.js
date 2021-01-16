@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 //import Window from './Window';
-import ITEM_TYPE from "../../data/types";
+import ITEM_TYPES from "../../data/types";
 
-const Card = ({ card, setHoveredCardIndex }) => {
+const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
   const _id = 4;
   //  this HAS to be called "ref"!!
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: ITEM_TYPE,
+      type: ITEM_TYPES.CARD,
       card: card,
     },
     collect: (monitor) => ({
@@ -18,11 +18,14 @@ const Card = ({ card, setHoveredCardIndex }) => {
 
   //  this is only used to detect hover
   const [{ isOver }, drop] = useDrop({
-    accept: ITEM_TYPE,
+    accept: ITEM_TYPES.CARD,
 
-    hover(item, monitor) {
-      setHoveredCardIndex(card.cardIndex);
-    },
+    // hover: (item, monitor) => {
+    //   setHoveredCardIndex(card.cardIndex);
+    // },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(), // isOver() is a function found in the DropTargetMonitor
+    }),
     /*
       alert("hovering");
       if (!ref.current) {
@@ -54,23 +57,36 @@ const Card = ({ card, setHoveredCardIndex }) => {
     */
   });
 
+  useEffect(() => {
+    if (isOver) {
+      setHoveredCardIndex(card.cardIndex);
+    } else {
+      if (hoveredCardIndex === card.cardIndex) {
+        //  this seemed to be reversing the above
+        //setHoveredCardIndex(null);
+      }
+    }
+  }, [isOver]);
+
   let className = "card";
   if (isDragging) {
-    className += " isDragging";
+    // className += " isDragging";
   }
 
   //  not happening
   if (isOver) {
     className += " isOver";
-    alert("isOver");
+    //setHoveredCardIndex(card.cardIndex);
+
+    //alert("isOver");
   }
 
   return (
     <div ref={drop}>
       <div className={className} ref={drag}>
-        <h3>{card.desc}</h3>
+        <h3>{card.header}</h3>
         <h4>{card.status}</h4>
-        This is Card {card.cardId}
+        This is BubbaCard {card.cardId}
       </div>
     </div>
   );

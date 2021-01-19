@@ -5,19 +5,27 @@ import boardJSON from "../../data/board.json";
 import getBoard from "../library/getSaveBoard";
 import List from "./List";
 import plus_sm from "../../images/plus-sm.svg";
+import x from "../../images/x.svg";
 
 const Board = function () {
   const [board, setBoard] = useState({ lists: [] });
   const [addingList, setAddingList] = useState(false);
   const [listTitle, setListTitle] = useState("");
   const [hoveredListIndex, setHoveredListIndex] = useState(null);
+  const [saveBoard, setSaveBoard] = useState(false);
 
   useEffect(() => {
     getBoard().then((data) => setBoard(data[0]));
   }, []);
 
+  useEffect(() => {
+    //saveBoard().then((data) => setBoard(data[0]));
+    setSaveBoard(false);
+  }, [saveBoard]);
+
   const handleAddList = (event) => {
     event.preventDefault();
+    if (!listTitle) return;
     //  do we need cardId?  Card will always be inside a column array.
     const list = {
       listId: board.length + 1,
@@ -100,7 +108,7 @@ const Board = function () {
         })}
         {!addingList && (
           <button
-            className="add-list-button"
+            className="add-card-list-button"
             onClick={() => setAddingList(true)}
           >
             <img src={plus_sm} />
@@ -114,7 +122,21 @@ const Board = function () {
               onChange={(event) => setListTitle(event.target.value)}
             ></textarea>
             <br />
-            <input type="submit" value="Add List" />
+            <div className="add-list-form-button-close">
+              <input
+                type="submit"
+                className="green-add-button"
+                value="Add List"
+              />
+              <img
+                style={{
+                  width: "25px",
+                  height: "25px",
+                }}
+                src={x}
+                onClick={() => setAddingList(false)}
+              />
+            </div>
           </form>
         )}
       </div>

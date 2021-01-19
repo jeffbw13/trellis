@@ -15,11 +15,12 @@ body {
 .list {
   width: 272px;
   margin: 0 4px;
+  padding: 0px 12px;
   background-color: #ebecf0;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: min-content;
   max-height: 100%;
   position: relative;
   white-space: normal;
@@ -30,10 +31,84 @@ body {
   margin-right: auto;
   margin-top: 3px;
   margin-bottom: 4px;
-  padding: 0px;
+  padding: 0px 10px;
   width: 250px;
   min-height: 54px;
   background-color: white;
+}
+
+.add-card-list-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  background-color: #ebecf070;
+  width: 242px;
+  height: 40px;
+  border: none;
+  margin: 0px 4px;
+  font-size: 0.9rem;
+}
+
+.add-card-button image {
+}
+
+.add-list-form {
+  margin: 0px 0px 4px 4px;
+  background-color: #ebecf070;
+  width: 264px;
+  height: 60px;
+  padding: 20px;
+  text-align: center;
+}
+
+.add-list-form textarea {
+  border: none;
+  width: 100%;
+  margin: 0px;
+  font-family: Segoe UI, Roboto, Helvetica Neue, sans-serif;
+}
+
+.add-list-form-button-close {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.add-card-form {
+  margin: 15px 0px 4px 2px;
+  background-color: #ebecf070;
+  width: 264px;
+  height: 80px;
+  padding: 0px;
+  text-align: center;
+}
+
+.add-card-form textarea {
+  border: none;
+  width: 100%;
+  margin: 0px;
+  font-family: Segoe UI, Roboto, Helvetica Neue, sans-serif;
+}
+
+.add-card-form-button-close {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.green-add-button {
+  padding: 7px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #5aac44;
+  color: white;
+  font-weight: 700;
 }
 
 .isDragging {
@@ -42,4 +117,46 @@ body {
 
 .isOver {
   background-color: lightblue;
+}
+
+.card-detail-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-detail-left {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+
+.card-detail-section {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.card-detail-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+.card-detail-input {
+  width: 100%;
+}
+
+.card-detail-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-top: 50px;
+  width: 20%;
+}
+
+.loz-button {
+  padding: 5px;
+  margin: 2px 0px;
+  border-radius: 2px;
+  background-color: #eaecf0;
 }

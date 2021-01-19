@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import CardModal from "react-modal";
+import CardDetail from "./CardDetail";
 //import Window from './Window';
 import ITEM_TYPES from "../../data/types";
 import eye from "../../images/eyeball.svg";
+import text from "../../images/text.svg";
 
 const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const _id = 4;
-  //  this HAS to be called "ref"!!
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ITEM_TYPES.CARD,
@@ -82,17 +86,53 @@ const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
     //alert("isOver");
   }
 
+  const modalStyles = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.75)",
+    },
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      width: "45rem",
+      height: "90%",
+      borderRadius: "1%",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "#F4F5F7",
+    },
+  };
+
+  CardModal.setAppElement("#modal");
+
   return (
-    <div ref={drop}>
-      <div className={className} ref={drag}>
-        <h3>{card.header}</h3>
-        <h4>{card.status}</h4>
-        <img
-          style={{ width: "17px", height: "15px", stroke: "lightGrey" }}
-          src={eye}
-        />
+    <>
+      <div ref={drop}>
+        <div
+          className={className}
+          ref={drag}
+          onClick={() => setModalOpen(!modalOpen)}
+        >
+          <h3>{card.header}</h3>
+          <h4>{card.status}</h4>
+          <img
+            style={{ width: "17px", height: "15px", stroke: "lightGrey" }}
+            src={eye}
+          />
+          {card.description && (
+            <img style={{ width: "17px", height: "17px" }} src={text} />
+          )}
+        </div>
       </div>
-    </div>
+      <CardModal
+        isOpen={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        style={modalStyles}
+      >
+        <CardDetail card={card} setModalOpen={setModalOpen} />
+      </CardModal>
+    </>
   );
 };
 

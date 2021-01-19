@@ -3,18 +3,19 @@ import { useDrag, useDrop } from "react-dnd";
 import ITEM_TYPES from "../../data/types";
 import Card from "./Card";
 import plus_sm from "../../images/plus-sm.svg";
+import x from "../../images/x.svg";
 
 const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
   const [addingCard, setAddingCard] = useState(false);
-  const [cardTitle, setCardTitle] = useState("");
+  const [cardHeader, setCardHeader] = useState("");
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
 
   const handleAddCard = (event) => {
     event.preventDefault();
+    if (!cardHeader) return;
     //  do we need cardId?  Card will always be inside an array in list.
     const card = {
-      cardId: list.cards.length + 1,
-      desc: cardTitle,
+      header: cardHeader,
       status: "incomplete",
       cardIndex: list.cards.length + 1,
     };
@@ -77,7 +78,7 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
         })}
         {!addingCard && (
           <button
-            className="add-card-button"
+            className="add-card-list-button"
             onClick={() => setAddingCard(true)}
           >
             <img src={plus_sm} />
@@ -88,10 +89,23 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
           <form className="add-card-form" onSubmit={handleAddCard}>
             <textarea
               placeholder="Enter a title for this card..."
-              onChange={(event) => setCardTitle(event.target.value)}
+              onChange={(event) => setCardHeader(event.target.value)}
             ></textarea>
-            <br />
-            <input type="submit" value="Add Card" />
+            <div className="add-card-form-button-close">
+              <input
+                type="submit"
+                className="green-add-button"
+                value="Add Card"
+              />
+              <img
+                style={{
+                  width: "25px",
+                  height: "25px",
+                }}
+                src={x}
+                onClick={() => setAddingCard(false)}
+              />
+            </div>
           </form>
         )}
       </div>

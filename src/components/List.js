@@ -5,7 +5,12 @@ import Card from "./Card";
 import plus_sm from "../../images/plus-sm.svg";
 import x from "../../images/x.svg";
 
-const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
+const List = ({
+  list,
+  handleCardDropped,
+  setHoveredListIndex,
+  setSaveBoard,
+}) => {
   const [addingCard, setAddingCard] = useState(false);
   const [cardHeader, setCardHeader] = useState("");
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
@@ -22,6 +27,7 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
     //  this needs to add column to database.
     list.cards.push(card);
     setAddingCard(false);
+    setSaveBoard(true);
   };
 
   const [{ isDragging }, drag] = useDrag({
@@ -42,10 +48,18 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
       return item.type === ITEM_TYPES.CARD;
     },
     drop: (item, monitor) => {
+      const droppedOverCard = monitor.didDrop();
+
       //  problem: hoveredCardIndex is LAST card hovered over
       //  what if we aren't currently hovering over a card?
       //  can we set this back to null somehow?
-      handleCardDropped(item, list.listIndex, hoveredCardIndex);
+      //alert("dropped over list! didDorp=" + didDrop);
+      handleCardDropped(
+        item,
+        list.listIndex,
+        hoveredCardIndex,
+        droppedOverCard
+      );
     },
     hover(item, monitor) {
       setHoveredListIndex(list.listIndex);
@@ -57,7 +71,7 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
 
   let className = "list";
   if (isOver) {
-    className += " isOver";
+    className += " isOverList";
   }
 
   return (
@@ -73,6 +87,7 @@ const List = ({ list, handleCardDropped, setHoveredListIndex }) => {
               key={index}
               hoveredCardIndex={hoveredCardIndex}
               setHoveredCardIndex={setHoveredCardIndex}
+              setSaveBoard={setSaveBoard}
             />
           );
         })}

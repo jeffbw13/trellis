@@ -115,7 +115,12 @@ body {
   opacity: 50%;
 }
 
-.isOver {
+.isOverList {
+  background-color: lightblue;
+}
+
+.isOverCard {
+  /* margin-top: 100px; */
   background-color: lightblue;
 }
 

@@ -7,7 +7,12 @@ import ITEM_TYPES from "../../data/types";
 import eye from "../../images/eyeball.svg";
 import text from "../../images/text.svg";
 
-const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
+const Card = ({
+  card,
+  hoveredCardIndex,
+  setHoveredCardIndex,
+  setSaveBoard,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const _id = 4;
@@ -24,12 +29,17 @@ const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
   //  this is only used to detect hover
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPES.CARD,
-
+    //  currently list is using hover rather than isover.  Consistency?
     // hover: (item, monitor) => {
     //   setHoveredCardIndex(card.cardIndex);
     // },
+    drop: (item, monitor) => {
+      //  we allow drop over the card but don't handle it,so that
+      //    List knows there was a drop over card (didDrop())
+    },
+
     collect: (monitor) => ({
-      isOver: monitor.isOver(), // isOver() is a function found in the DropTargetMonitor
+      isOver: monitor.isOver(), // isOver() is in DropTargetMonitor
     }),
     /*
       alert("hovering");
@@ -80,7 +90,7 @@ const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
 
   //  not happening
   if (isOver) {
-    className += " isOver";
+    className += " isOverCard";
     //setHoveredCardIndex(card.cardIndex);
 
     //alert("isOver");
@@ -130,7 +140,11 @@ const Card = ({ card, hoveredCardIndex, setHoveredCardIndex }) => {
         onRequestClose={() => setModalOpen(false)}
         style={modalStyles}
       >
-        <CardDetail card={card} setModalOpen={setModalOpen} />
+        <CardDetail
+          card={card}
+          setModalOpen={setModalOpen}
+          setSaveBoard={setSaveBoard}
+        />
       </CardModal>
     </>
   );

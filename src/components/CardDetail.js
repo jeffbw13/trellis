@@ -5,15 +5,16 @@ import x from "../../images/x.svg";
 import text from "../../images/text.svg";
 import emojiHappy from "../../images/emoji-happy.svg";
 
-const CardDetail = ({ card, setModalOpen }) => {
+const CardDetail = ({ card, setModalOpen, setSaveBoard }) => {
   const [cardHeader, setCardHeader] = useState(card.header);
   const [cardDescription, setCardDescription] = useState(card.description);
 
   const handleSaveBoard = () => {
     event.preventDefault();
-    alert("handleSaveBoard!");
     card.header = cardHeader;
     card.description = cardDescription;
+    setModalOpen(false);
+    setSaveBoard(true);
   };
 
   //  if header is updated, updates card even if modal is closed

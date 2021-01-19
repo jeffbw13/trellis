@@ -19,7 +19,9 @@ const Board = function () {
   }, []);
 
   useEffect(() => {
+    if (!saveBoard) return;
     //saveBoard().then((data) => setBoard(data[0]));
+    alert("saving board in effect! saveBoard=" + saveBoard);
     setSaveBoard(false);
   }, [saveBoard]);
 
@@ -37,10 +39,16 @@ const Board = function () {
 
     boardx.lists.push(list);
     setBoard(boardx);
+    setSaveBoard(true);
     setAddingList(false);
   };
 
-  const handleCardDropped = (item, newListIndex, hoveredCardIndex) => {
+  const handleCardDropped = (
+    item,
+    newListIndex,
+    hoveredCardIndex,
+    droppedOverCard
+  ) => {
     //  board is where we have access to both lists
     const boardx = { ...board };
     //  item.listIndex and item.cardIndex should resolve themselves
@@ -50,7 +58,7 @@ const Board = function () {
     //  current component would need to query 'hovered' component irt
     //  either that or detect that current item is physically below
     //    last element
-    if (hoveredCardIndex === null) {
+    if (hoveredCardIndex === null || !droppedOverCard) {
       boardx.lists[newListIndex].cards.push(item.card);
     } else {
       boardx.lists[newListIndex].cards.splice(hoveredCardIndex, 0, item.card);
@@ -68,6 +76,7 @@ const Board = function () {
       boardx.lists[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
     }
     setBoard(boardx);
+    setSaveBoard(true);
   };
 
   const handleListDropped = () => {
@@ -102,6 +111,7 @@ const Board = function () {
               list={list}
               handleCardDropped={handleCardDropped}
               setHoveredListIndex={setHoveredListIndex}
+              setSaveBoard={setSaveBoard}
               key={index}
             />
           );

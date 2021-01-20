@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import ITEM_TYPES from "../../data/types";
 import boardJSON from "../../data/board.json";
-import getBoard from "../library/getSaveBoard";
+import { getBoard, saveBoard } from "../library/getSaveBoard";
 import List from "./List";
 import plus_sm from "../../images/plus-sm.svg";
 import x from "../../images/x.svg";
@@ -12,18 +12,20 @@ const Board = function () {
   const [addingList, setAddingList] = useState(false);
   const [listTitle, setListTitle] = useState("");
   const [hoveredListIndex, setHoveredListIndex] = useState(null);
-  const [saveBoard, setSaveBoard] = useState(false);
+  const [saveBoardFlag, setSaveBoardFlag] = useState(false);
 
   useEffect(() => {
     getBoard().then((data) => setBoard(data[0]));
   }, []);
 
   useEffect(() => {
-    if (!saveBoard) return;
-    //saveBoard().then((data) => setBoard(data[0]));
-    alert("saving board in effect! saveBoard=" + saveBoard);
-    setSaveBoard(false);
-  }, [saveBoard]);
+    if (!saveBoardFlag) return;
+    saveBoard(board)
+      .then((resp) => console.log("hey"))
+      .catch((err) => console.log("error: ", err));
+    alert("saving board in effect! saveBoardFlag=" + saveBoardFlag);
+    setSaveBoardFlag(false);
+  }, [saveBoardFlag]);
 
   const handleAddList = (event) => {
     event.preventDefault();
@@ -39,7 +41,7 @@ const Board = function () {
 
     boardx.lists.push(list);
     setBoard(boardx);
-    setSaveBoard(true);
+    setSaveBoardFlag(true);
     setAddingList(false);
   };
 
@@ -70,7 +72,7 @@ const Board = function () {
       boardx.lists[item.card.listIndex].cards.splice(item.card.cardIndex, 1);
     }
     setBoard(boardx);
-    setSaveBoard(true);
+    setSaveBoardFlag(true);
   };
 
   const handleListDropped = (item, droppedOverList) => {
@@ -89,7 +91,7 @@ const Board = function () {
       boardx.lists.splice(item.list.listIndex, 1);
     }
     setBoard(boardx);
-    setSaveBoard(true);
+    setSaveBoardFlag(true);
   };
 
   const [{ isOver }, drop] = useDrop({
@@ -117,7 +119,7 @@ const Board = function () {
               list={list}
               handleCardDropped={handleCardDropped}
               setHoveredListIndex={setHoveredListIndex}
-              setSaveBoard={setSaveBoard}
+              setSaveBoardFlag={setSaveBoardFlag}
               key={index}
             />
           );

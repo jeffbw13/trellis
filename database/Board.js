@@ -27,9 +27,18 @@ const BoardSchema = mongoose.Schema({
 const Board = mongoose.model("Board", BoardSchema);
 
 const getAll = () => {
-  let query = Board.find({});
+  const query = Board.find({});
   return query.exec();
 };
 
+const updateOne = (board) => {
+  const query = Board.findOneAndUpdate({ _id: board._id }, board);
+  return query.exec();
+};
+
+const addOne = (board) => {};
+
 module.exports = Board;
 module.exports.getAll = getAll;
+module.exports.updateOne = updateOne;
+module.exports.addOne = addOne;

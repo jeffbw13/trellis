@@ -9,7 +9,7 @@ const List = ({
   list,
   handleCardDropped,
   setHoveredListIndex,
-  setSaveBoard,
+  setSaveBoardFlag,
 }) => {
   const [addingCard, setAddingCard] = useState(false);
   const [cardHeader, setCardHeader] = useState("");
@@ -27,7 +27,7 @@ const List = ({
     //  this needs to add column to database.
     list.cards.push(card);
     setAddingCard(false);
-    setSaveBoard(true);
+    setSaveBoardFlag(true);
   };
 
   const [{ isDragging }, drag] = useDrag({
@@ -91,7 +91,7 @@ const List = ({
               key={index}
               hoveredCardIndex={hoveredCardIndex}
               setHoveredCardIndex={setHoveredCardIndex}
-              setSaveBoard={setSaveBoard}
+              setSaveBoardFlag={setSaveBoardFlag}
             />
           );
         })}

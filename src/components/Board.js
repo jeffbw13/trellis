@@ -52,12 +52,6 @@ const Board = function () {
     //  board is where we have access to both lists
     const boardx = { ...board };
     //  item.listIndex and item.cardIndex should resolve themselves
-
-    //  working except can't move to bottom of list after hovering over anything
-    //  need some way to know that we aren'g currently hovering over a card
-    //  current component would need to query 'hovered' component irt
-    //  either that or detect that current item is physically below
-    //    last element
     if (hoveredCardIndex === null || !droppedOverCard) {
       boardx.lists[newListIndex].cards.push(item.card);
     } else {
@@ -79,25 +73,37 @@ const Board = function () {
     setSaveBoard(true);
   };
 
-  const handleListDropped = () => {
-    alert("list dropped! " + hoveredListIndex);
+  const handleListDropped = (item, droppedOverList) => {
+    //  board is where we have access to all lists
+    const boardx = { ...board };
+    //  item.listIndex and item.cardIndex should resolve themselves
+    if (hoveredListIndex === null || !droppedOverList) {
+      boardx.lists.push(item.list);
+    } else {
+      boardx.lists.splice(hoveredListIndex, 0, item.list);
+    }
+    //  if move changed indexes...
+    if (droppedOverList && item.list.listIndex > hoveredListIndex) {
+      boardx.lists.splice(item.list.listIndex + 1, 1);
+    } else {
+      boardx.lists.splice(item.list.listIndex, 1);
+    }
+    setBoard(boardx);
+    setSaveBoard(true);
   };
 
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPES.LIST,
     canDrop: (item, monitor) => {
-      //  we will eventually use candrop to prevent dropping a column into
-      //    another column, or a card outside a colum
       return true;
     },
     drop: (item, monitor) => {
-      //  problem: hoveredCardIndex is LAST card hovered over
-      //  what if we aren't currently hovering over a card?
-      //  can we set this back to null somehow?
-      handleListDropped(item, hoveredListIndex);
+      const droppedOverList = monitor.didDrop();
+      handleListDropped(item, droppedOverList);
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver(), // isOver() is a function found in the DropTargetMonitor
+      isOver: monitor.isOver(),
+      //  ...but everything is over the board!
     }),
   });
 

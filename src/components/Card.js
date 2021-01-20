@@ -29,10 +29,11 @@ const Card = ({
   //  this is only used to detect hover
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPES.CARD,
-    //  currently list is using hover rather than isover.  Consistency?
-    // hover: (item, monitor) => {
-    //   setHoveredCardIndex(card.cardIndex);
-    // },
+
+    hover: (item, monitor) => {
+      setHoveredCardIndex(card.cardIndex);
+    },
+
     drop: (item, monitor) => {
       //  we allow drop over the card but don't handle it,so that
       //    List knows there was a drop over card (didDrop())
@@ -41,59 +42,15 @@ const Card = ({
     collect: (monitor) => ({
       isOver: monitor.isOver(), // isOver() is in DropTargetMonitor
     }),
-    /*
-      alert("hovering");
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      const hoveredRect = ref.current.getBoundingClientRect();
-      const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2;
-      const mousePosition = monitor.getClientOffset();
-      const hoverClientY = mousePosition.y - hoveredRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-      //moveItem(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-
-    },
-    */
   });
-
-  useEffect(() => {
-    if (isOver) {
-      setHoveredCardIndex(card.cardIndex);
-    } else {
-      if (hoveredCardIndex === card.cardIndex) {
-        //  this seemed to be reversing the above
-        //setHoveredCardIndex(null);
-      }
-    }
-  }, [isOver]);
 
   let className = "card";
   if (isDragging) {
-    // className += " isDragging";
+    className += " isDragging";
   }
 
-  //  not happening
   if (isOver) {
     className += " isOverCard";
-    //setHoveredCardIndex(card.cardIndex);
-
-    //alert("isOver");
   }
 
   const modalStyles = {

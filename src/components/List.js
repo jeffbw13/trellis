@@ -45,21 +45,25 @@ const List = ({
     canDrop: (item, monitor) => {
       //  we will eventually use candrop to prevent dropping a column into
       //    another column, or a card outside a colum
-      return item.type === ITEM_TYPES.CARD;
+      //return item.type === ITEM_TYPES.CARD;
+      //  allow drop of list but don't handle it
+      return true;
     },
     drop: (item, monitor) => {
       const droppedOverCard = monitor.didDrop();
-
+      alert("dropped over list!");
       //  problem: hoveredCardIndex is LAST card hovered over
       //  what if we aren't currently hovering over a card?
       //  can we set this back to null somehow?
       //alert("dropped over list! didDorp=" + didDrop);
-      handleCardDropped(
-        item,
-        list.listIndex,
-        hoveredCardIndex,
-        droppedOverCard
-      );
+      if (item.type === ITEM_TYPES.CARD) {
+        handleCardDropped(
+          item,
+          list.listIndex,
+          hoveredCardIndex,
+          droppedOverCard
+        );
+      }
     },
     hover(item, monitor) {
       setHoveredListIndex(list.listIndex);

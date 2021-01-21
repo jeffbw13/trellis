@@ -2,23 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import ITEM_TYPES from "../../data/types";
 import Card from "./Card";
+import Popup from "./Popup";
+import ListMenu from "./ListMenu";
 import plus_sm from "../../images/plus-sm.svg";
 import x from "../../images/x.svg";
+import dots_horizontal from "../../images/dots-horizontal.svg";
 
 const List = ({
   list,
   handleCardDropped,
   setHoveredListIndex,
+  handleDeleteList,
   setSaveBoardFlag,
 }) => {
+  const [listHeader, setListHeader] = useState(list.header);
   const [addingCard, setAddingCard] = useState(false);
   const [cardHeader, setCardHeader] = useState("");
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
+  const [showMenuPopup, setShowMenuPopup] = useState(false);
 
   const handleAddCard = (event) => {
     event.preventDefault();
     if (!cardHeader) return;
-    //  do we need cardId?  Card will always be inside an array in list.
     const card = {
       header: cardHeader,
       status: "incomplete",
@@ -40,22 +45,21 @@ const List = ({
     }),
   });
 
+  const handleDeleteCard = (card) => {
+    alert("handleDeleteCard!");
+    list.cards.splice(card.cardIndex, 1);
+    setSaveBoardFlag(true);
+  };
+
   const [{ isOver }, drop] = useDrop({
     accept: [ITEM_TYPES.CARD, ITEM_TYPES.LIST],
     canDrop: (item, monitor) => {
-      //  we will eventually use candrop to prevent dropping a column into
-      //    another column, or a card outside a colum
-      //return item.type === ITEM_TYPES.CARD;
-      //  allow drop of list but don't handle it
+      //  allow drop of list but don't handle it.  To find out if list was
+      //    hovering over another list.
       return true;
     },
     drop: (item, monitor) => {
       const droppedOverCard = monitor.didDrop();
-      alert("dropped over list!");
-      //  problem: hoveredCardIndex is LAST card hovered over
-      //  what if we aren't currently hovering over a card?
-      //  can we set this back to null somehow?
-      //alert("dropped over list! didDorp=" + didDrop);
       if (item.type === ITEM_TYPES.CARD) {
         handleCardDropped(
           item,
@@ -73,6 +77,11 @@ const List = ({
     }),
   });
 
+  useEffect(() => {
+    list.header = listHeader;
+    setSaveBoardFlag(true);
+  }, [listHeader]);
+
   let className = "list";
   if (isOver) {
     className += " isOverList";
@@ -81,7 +90,26 @@ const List = ({
   return (
     <div className={className} ref={drop}>
       <div ref={drag}>
-        <h2>{list.header}</h2>
+        <div className="list-header">
+          <input
+            type="text"
+            style={{
+              border: "none",
+              width: "80%",
+              fontSize: "1em",
+              fontWeight: "700",
+              backgroundColor: "#ebecf0",
+            }}
+            value={listHeader}
+            onChange={(event) => setListHeader(event.target.value)}
+          />
+          <img
+            style={{ width: "15px", height: "15px" }}
+            src={dots_horizontal}
+            onClick={() => setShowMenuPopup(!showMenuPopup)}
+          />
+        </div>
+
         {list.cards.map((card, index) => {
           card.listIndex = list.listIndex;
           card.cardIndex = index;
@@ -91,6 +119,7 @@ const List = ({
               key={index}
               hoveredCardIndex={hoveredCardIndex}
               setHoveredCardIndex={setHoveredCardIndex}
+              handleDeleteCard={handleDeleteCard}
               setSaveBoardFlag={setSaveBoardFlag}
             />
           );
@@ -128,6 +157,16 @@ const List = ({
           </form>
         )}
       </div>
+      {showMenuPopup && (
+        <Popup>
+          <ListMenu
+            list={list}
+            setShowMenuPopup={setShowMenuPopup}
+            setAddingCard={setAddingCard}
+            handleDeleteList={handleDeleteList}
+          />
+        </Popup>
+      )}
     </div>
   );
 };

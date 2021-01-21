@@ -5,7 +5,12 @@ import x from "../../images/x.svg";
 import text from "../../images/text.svg";
 import emojiHappy from "../../images/emoji-happy.svg";
 
-const CardDetail = ({ card, setModalOpen, setSaveBoardFlag }) => {
+const CardDetail = ({
+  card,
+  setModalOpen,
+  handleDeleteCard,
+  setSaveBoardFlag,
+}) => {
   const [cardHeader, setCardHeader] = useState(card.header);
   const [cardDescription, setCardDescription] = useState(card.description);
 
@@ -102,7 +107,15 @@ const CardDetail = ({ card, setModalOpen, setSaveBoardFlag }) => {
           <div className="loz-button">Copy</div>
           <div className="loz-button">Make Template</div>
           <div className="loz-button">Watch</div>
-          <div className="loz-button">Archive</div>
+          <div
+            className="loz-button"
+            onClick={() => {
+              handleDeleteCard(card);
+              setModalOpen(false);
+            }}
+          >
+            Archive
+          </div>
           <div className="loz-button">Share</div>
         </div>
       </form>

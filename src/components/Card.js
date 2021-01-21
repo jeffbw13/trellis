@@ -11,6 +11,7 @@ const Card = ({
   card,
   hoveredCardIndex,
   setHoveredCardIndex,
+  handleDeleteCard,
   setSaveBoardFlag,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -100,6 +101,7 @@ const Card = ({
         <CardDetail
           card={card}
           setModalOpen={setModalOpen}
+          handleDeleteCard={handleDeleteCard}
           setSaveBoardFlag={setSaveBoardFlag}
         />
       </CardModal>

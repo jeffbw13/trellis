@@ -23,7 +23,7 @@ const Board = function () {
     saveBoard(board)
       .then((resp) => console.log("hey"))
       .catch((err) => console.log("error: ", err));
-    alert("saving board in effect! saveBoardFlag=" + saveBoardFlag);
+    //alert("saving board in effect! saveBoardFlag=" + saveBoardFlag);
     setSaveBoardFlag(false);
   }, [saveBoardFlag]);
 
@@ -94,6 +94,13 @@ const Board = function () {
     setSaveBoardFlag(true);
   };
 
+  const handleDeleteList = (list) => {
+    const boardx = { ...board };
+    boardx.lists.splice(list.listIndex, 1);
+    setBoard(boardx);
+    setSaveBoardFlag(true);
+  };
+
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPES.LIST,
     canDrop: (item, monitor) => {
@@ -119,6 +126,7 @@ const Board = function () {
               list={list}
               handleCardDropped={handleCardDropped}
               setHoveredListIndex={setHoveredListIndex}
+              handleDeleteList={handleDeleteList}
               setSaveBoardFlag={setSaveBoardFlag}
               key={index}
             />

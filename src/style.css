@@ -13,9 +13,10 @@ body {
 }
 
 .list {
+  position: relative;
   width: 272px;
   margin: 0 4px;
-  padding: 0px 12px;
+  padding: 14px 12px 0px 12px;
   background-color: #ebecf0;
   border-radius: 3px;
   display: flex;
@@ -24,6 +25,15 @@ body {
   max-height: 100%;
   position: relative;
   white-space: normal;
+}
+
+.list-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 1.2em;
+  font-weight: 700;
 }
 
 .card {
@@ -164,4 +174,20 @@ body {
   margin: 2px 0px;
   border-radius: 2px;
   background-color: #eaecf0;
+}
+
+.popup {
+  position: absolute;
+  /* this will need to be positioned by variables within the component */
+  left: 90%;
+  top: 52px;
+  z-index: 500;
+  background-color: white;
+  border: solid grey 0.5px;
+  border-radius: 5px;
+}
+
+.list-menu {
+  margin: 15px;
+  width: 275px;
 }

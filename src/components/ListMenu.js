@@ -10,20 +10,7 @@ const ListMenu = ({
   return (
     <>
       <div className="list-menu">
-        <span style={{ marginLeft: "auto", marginRight: "auto" }}>
-          List Actions
-        </span>
-        <img
-          style={{
-            width: "15px",
-            height: "15px",
-            position: "absolute",
-            top: "20px",
-            right: "20px",
-          }}
-          src={x}
-          onClick={() => setShowMenuPopup(false)}
-        />
+        <div style={{ width: "100%", alignText: "center" }}>List Actions</div>
         <hr />
         <span
           onClick={() => {
@@ -60,8 +47,8 @@ const ListMenu = ({
             width: "15px",
             height: "15px",
             position: "absolute",
-            top: "20px",
-            right: "20px",
+            top: "15px",
+            right: "15px",
           }}
           src={x}
           onClick={() => setShowMenuPopup(false)}

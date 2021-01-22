@@ -1,16 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Board from './components/Board';
+import Board from "./components/Board";
+import Header from "./components/Header";
 
 const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-    <div>
-      <h1>Welcome to Trellis!</h1>
-      <Board />
-    </div>
+      <div>
+        <Header />
+        <Board />
+      </div>
     </DndProvider>
   );
 };

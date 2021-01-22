@@ -40,13 +40,13 @@ const List = ({
       type: ITEM_TYPES.LIST,
       list: list,
     },
+
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
 
   const handleDeleteCard = (card) => {
-    alert("handleDeleteCard!");
     list.cards.splice(card.cardIndex, 1);
     setSaveBoardFlag(true);
   };
@@ -78,8 +78,10 @@ const List = ({
   });
 
   useEffect(() => {
-    list.header = listHeader;
-    setSaveBoardFlag(true);
+    // was causing column headers to get jumbled on drag/drop
+    // needs to be done some other way.
+    //list.header = listHeader;
+    //setSaveBoardFlag(true);
   }, [listHeader]);
 
   let className = "list";
@@ -91,6 +93,7 @@ const List = ({
     <div className={className} ref={drop}>
       <div ref={drag}>
         <div className="list-header">
+          {/*
           <input
             type="text"
             style={{
@@ -103,6 +106,8 @@ const List = ({
             value={listHeader}
             onChange={(event) => setListHeader(event.target.value)}
           />
+          */}
+          {list.header}
           <img
             style={{ width: "15px", height: "15px" }}
             src={dots_horizontal}

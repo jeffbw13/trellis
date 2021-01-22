@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import Popup from "./Popup";
+import DateTime from "./DateTime";
 import headline from "../../images/headline.svg";
-
 import x from "../../images/x.svg";
 import text from "../../images/text.svg";
 import emojiHappy from "../../images/emoji-happy.svg";
@@ -13,6 +14,7 @@ const CardDetail = ({
 }) => {
   const [cardHeader, setCardHeader] = useState(card.header);
   const [cardDescription, setCardDescription] = useState(card.description);
+  const [showDateTimePopup, setShowDateTimePopup] = useState(false);
 
   const handleSaveBoardFlag = () => {
     event.preventDefault();
@@ -96,7 +98,12 @@ const CardDetail = ({
           <div className="loz-button">Members</div>
           <div className="loz-button">Labels</div>
           <div className="loz-button">Checklist</div>
-          <div className="loz-button">Due Date</div>
+          <div
+            className="loz-button"
+            onClick={() => setShowDateTimePopup(!showDateTimePopup)}
+          >
+            Due Date
+          </div>
           <div className="loz-button">Attachment</div>
           <div className="loz-button">Cover</div>
           POWER-UPS
@@ -118,6 +125,14 @@ const CardDetail = ({
           </div>
           <div className="loz-button">Share</div>
         </div>
+        {showDateTimePopup && (
+          <Popup style={{ left: "55%" }}>
+            <DateTime
+              setShowPopup={setShowDateTimePopup}
+              dateTime={card.dueDate}
+            />
+          </Popup>
+        )}
       </form>
     </>
   );

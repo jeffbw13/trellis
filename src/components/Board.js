@@ -17,7 +17,7 @@ const Board = function () {
   useEffect(() => {
     getBoard().then((data) => setBoard(data[0]));
   }, []);
-
+  console.log(board, "saveBoardFlag: ", saveBoardFlag);
   useEffect(() => {
     if (!saveBoardFlag) return;
     saveBoard(board)

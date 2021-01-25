@@ -6,18 +6,24 @@ import dateFnsFormat from "date-fns/format";
 import dateFnsParse from "date-fns/parse";
 import x from "../../images/x.svg";
 
-const DateTime = ({ setShowPopup, dateTime }) => {
+const DateTime = ({ setShowPopup, dateTime, handleChangeDate }) => {
   const [date, setDate] = useState(new Date().toLocaleDateString());
   const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [validTime, setValidTime] = useState(true);
 
   useEffect(() => {
+    //  we'll maintain the dates within board as strings
+    let useDateTime = new Date();
     if (dateTime !== undefined) {
-      setDate(dateTime.toLocaleDateString());
-      setTime(dateTime.toLocaleTimeString());
-    } else {
-      setDate(new Date().toLocaleDateString());
-      setTime(new Date().toLocaleTimeString());
+      useDateTime = new Date(dateTime);
     }
+    let timeString = useDateTime.toLocaleTimeString();
+    //  split on colons
+    const timeArr = timeString.split(":");
+    //  put back together omitting seconds
+    timeString = `${timeArr[0]}:${timeArr[1]} ${timeArr[2].substr(3, 2)}`;
+    setDate(useDateTime.toLocaleDateString());
+    setTime(timeString);
   }, []);
 
   const parseDate = (str, format, locale) => {
@@ -34,14 +40,50 @@ const DateTime = ({ setShowPopup, dateTime }) => {
 
   const FORMAT = "MM/dd/yyyy";
 
-  const handleDateSubmit = () => {
-    event.preventDefault();
+  let timeBoxStyle = {};
+  !validTime && (timeBoxStyle = { backgroundColor: "pink" });
 
-    alert("handleDateSubmit!");
+  const checkValidTime = () => {
+    setValidTime(true);
+    const timeArr = time.split(":");
+    if (parseInt(timeArr[0]) < 1 || parseInt(timeArr[0]) > 12) {
+      setValidTime(false);
+      console.log("first");
+    } else {
+      const minMerid = timeArr[1].split(" ");
+      console.log(minMerid);
+      if (isNaN(minMerid[0]) || minMerid[0] < "00" || minMerid > "59") {
+        setValidTime(false);
+        console.log("second");
+      } else {
+        if (minMerid[1] !== "AM" && minMerid[1] !== "PM") {
+          setValidTime(false);
+          console.log("third");
+        }
+      }
+    }
+  };
+
+  const handleSubmit = () => {
+    event.preventDefault();
+    if (!validTime) {
+      return;
+    }
+    dateTime = new Date(date);
+    const timeArr = time.split(":");
+    let hours = parseInt(timeArr[0]);
+    if (timeArr[1].substr(3, 2) === "PM") {
+      hours += 12;
+    }
+    dateTime.setHours(hours);
+    dateTime.setMinutes(parseInt(timeArr[1].substr(0, 2)));
+    const dateStr = JSON.stringify(dateTime);
+    handleChangeDate(JSON.parse(dateStr));
+    setShowPopup(false);
   };
 
   return (
-    <form className="date-time" onSubmit={handleDateSubmit}>
+    <form className="date-time" onSubmit={() => handleSubmit()}>
       Change Due Date
       <hr />
       <div
@@ -72,10 +114,13 @@ const DateTime = ({ setShowPopup, dateTime }) => {
           Time
           <br />
           <input
+            className="time-box"
+            style={timeBoxStyle}
             type="text"
             size="10"
             value={time}
             onChange={(event) => setTime(event.target.value)}
+            onBlur={() => checkValidTime()}
           />
         </div>
       </div>

@@ -29,7 +29,9 @@ const Header = () => {
           />
         </div>
       </div>
-      <div className="header-sub">Trellis!!</div>
+      <div className="header-sub">
+        <h2 style={{ margin: "0,0" }}>Trellis!</h2>
+      </div>
       <div
         className="header-sub"
         style={{ width: "40%", justifyContent: "flex-end" }}

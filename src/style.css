@@ -161,7 +161,7 @@ body {
   background-color: lightblue;
 }
 
-.card-detail-form {
+.card-detail {
   display: flex;
   flex-direction: row;
 }

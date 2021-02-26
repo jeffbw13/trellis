@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Clone of the popular Trololo board",
   "main": "index.js",
+  "homepage": "/subdir/",
   "scripts": {
-    "dev": "parcel src/index.html",
+    "dev:parcel": "parcel src/index.html",
+    "prod:parcel": "parcel build src/index.html --public-url ./",
     "db:seed": "node database/seed.js",
     "start": "nodemon server/index.js",
     "dontprestart": "parcel build ./src/index.html",

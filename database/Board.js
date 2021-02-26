@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const db = require("./db");
 
-const BoardSchema = mongoose.Schema({
+const boardSchema = mongoose.Schema({
   userId: Number,
   boardName: String,
   lists: [
@@ -24,7 +24,7 @@ const BoardSchema = mongoose.Schema({
   updatedAt: { type: Date, required: true, default: Date.now },
 });
 
-const Board = mongoose.model("Board", BoardSchema);
+const Board = mongoose.model("board", boardSchema);
 
 const getAll = () => {
   const query = Board.find({});

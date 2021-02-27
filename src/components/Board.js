@@ -15,16 +15,21 @@ const Board = function () {
   const [saveBoardFlag, setSaveBoardFlag] = useState(false);
 
   useEffect(() => {
-    getBoard().then((data) => setBoard(data[0]));
+    //  database action temporarily removed due to redhat node problem
+    //  getBoard().then((data) => setBoard(data[0]));
+    setBoard(boardJSON);
   }, []);
-  console.log(board, "saveBoardFlag: ", saveBoardFlag);
+
   useEffect(() => {
+    //  database action temporarily removed due to redhat node problem
+    /*
     if (!saveBoardFlag) return;
     saveBoard(board)
       .then((resp) => console.log("hey"))
       .catch((err) => console.log("error: ", err));
     //alert("saving board in effect! saveBoardFlag=" + saveBoardFlag);
     setSaveBoardFlag(false);
+    */
   }, [saveBoardFlag]);
 
   const handleAddList = (event) => {

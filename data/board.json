@@ -1,25 +1,23 @@
 //  board needs to be an object containing an array of lists
 {
+  "userId": 1,
+  "boardName": "My Big Board",
   "lists": [
     {
-      "userId": 1,
-      "listId": 1,
       "header": "To Do",
       "cards": [
-        { "cardId": 1, "desc": "Create Database", "status": "incomplete" },
-        { "cardId": 2, "desc": "Seed Database", "status": "incomplete" },
-        { "cardId": 3, "desc": "Create UI", "status": "incomplete" }
+        { "header": "Create Database", "status": "incomplete" },
+        { "header": "Seed Database", "status": "incomplete" },
+        { "header": "Create UI", "status": "incomplete" }
       ]
     },
     {
-      "userId": 1,
-      "listId": 2,
-      "header": "Dun",
+      "header": "Do More",
       "cards": [
-        { "cardId": 1, "desc": "Feed Cat", "status": "complete" },
-        { "cardId": 2, "desc": "Beat Cat", "status": "complete" },
-        { "cardId": 3, "desc": "Bleed Cat", "status": "complete" },
-        { "cardId": 4, "desc": "Eat Cat", "status": "complete" }
+        { "header": "Feed Cat", "status": "complete" },
+        { "header": "Beat Cat", "status": "complete" },
+        { "header": "Bleed Cat", "status": "complete" },
+        { "header": "Eat Cat", "status": "complete" }
       ]
     }
   ]
